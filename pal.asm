@@ -1,86 +1,86 @@
-DATA SEGMENT
-    MSG1 DB 10,13,'ENTER ANY STRING :- $'
-    MSG2 DB 10,13,'ENTERED STRING IS :- $'
-    MSG3 DB 10,13,'LENGTH OF STRING IS :- $'
-    MSG4 DB 10,13,'NO, GIVEN STRING IS NOT A PALINDROME $' 
-    MSG5 DB 10,13,'THE GIVEN STRING IS A PALINDROME $'
-    MSG6 DB 10,13,'REVERSE OF ENTERED STRING IS :- $' 
-    P1 LABEL BYTE
-    M1 DB 0FFH
-    L1 DB ?
-    P11 DB 0FFH DUP ('$')
-    P22 DB 0FFH DUP ('$')
-DATA ENDS 
-DISPLAY MACRO MSG
-    MOV AH,9
-    LEA DX,MSG
-    INT 21H
-ENDM   
-CODE SEGMENT
-    ASSUME CS:CODE,DS:DATA
-START:
-        MOV AX,DATA
-        MOV DS,AX                
+data segment
+    msg1 db 10,13,'Enter any string :- $'
+    msg2 db 10,13,'Entered string is :- $'
+    msg3 db 10,13,'Length of string is :- $'
+    msg4 db 10,13,'No, given string is not a palindrome $' 
+    msg5 db 10,13,'The given string is a palindrome $'
+    msg6 db 10,13,'Reverse of entered string is :- $' 
+    p1 label byte
+    m1 db 0ffh
+    l1 db ?
+    p11 db 0ffh dup ('$')
+    p22 db 0ffh dup ('$')
+data ends 
+display macro msg
+    mov ah,9
+    lea dx,msg
+    int 21h
+endm   
+code segment
+    assume cs:code,ds:data
+start:
+        mov ax,data
+        mov ds,ax                
                
-        DISPLAY MSG1
+        display msg1
        
-        LEA DX,P1
-        MOV AH,0AH    
-        INT 21H
+        lea dx,p1
+        mov ah,0ah    
+        int 21h
        
-        DISPLAY MSG2
+        display msg2
        
-        DISPLAY P11
+        display p11
        
-        DISPLAY MSG3
+        display msg3
        
-        MOV DL,L1
-        ADD DL,30H
-        MOV AH,2
-        INT 21H
+        mov dl,l1
+        add dl,30h
+        mov ah,2
+        int 21h
        
-        DISPLAY MSG6
+        display msg6
                
-        LEA SI,P11
-        LEA DI,P22
+        lea si,p11
+        lea di,p22
        
-        MOV DL,L1
-        DEC DL
-        MOV DH,0
-        ADD SI,DX
-        MOV CL,L1
-        MOV CH,0
+        mov dl,l1
+        dec dl
+        mov dh,0
+        add si,dx
+        mov cl,l1
+        mov ch,0
        
-REVERSE:
-        MOV AL,[SI]
-        MOV [DI],AL
-        INC DI
-        DEC SI
-        LOOP REVERSE
+reverse:
+        mov al,[si]
+        mov [di],al
+        inc di
+        dec si
+        loop reverse
        
-        DISPLAY P22
+        display p22
                       
-        LEA SI,P11
-        LEA DI,P22   
+        lea si,p11
+        lea di,p22   
        
-        MOV CL,L1
-        MOV CH,0
+        mov cl,l1
+        mov ch,0
        
-CHECK:
-        MOV AL,[SI]
-        CMP [DI],AL
-        JNE NOTPALIN
-        INC DI
-        INC SI
-        LOOP CHECK
+check:
+        mov al,[si]
+        cmp [di],al
+        jne notpalin
+        inc di
+        inc si
+        loop check
      
        
-        DISPLAY MSG5
-        JMP EXIT
-NOTPALIN:
-        DISPLAY MSG4
+        display msg5
+        jmp exit
+notpalin:
+        display msg4
                
-EXIT:   MOV AH,4CH
-        INT 21H
-CODE ENDS
-END START
+exit:   mov ah,4ch
+        int 21h
+code ends
+end start
